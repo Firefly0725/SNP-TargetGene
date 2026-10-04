@@ -178,84 +178,6 @@ ggsave(
 )
 
 #--------S5B--------
-meta <- tam@meta.data
-meta$group <- Idents(tam)
-plot_df <- meta %>%
-  group_by(sample, group) %>%
-  summarise(
-    n = n(),
-    .groups = "drop"
-  ) %>%
-  group_by(sample) %>%
-  mutate(
-    percent = n / sum(n) * 100
-  )
-p <- ggplot(
-  plot_df,
-  aes(
-    x = sample,
-    y = percent,
-    fill = group
-  )
-) +
-  geom_bar(
-    stat = "identity",
-    width = 0.8
-  ) +
-  scale_fill_manual(
-    name = "TCN2 group",
-    values = c(
-      "TCN2-low TAM_LYVE1" = "#A6CEE3",
-      "TCN2-high TAM_LYVE1" = "#8B5A9E"
-    )
-  ) +
-  scale_y_continuous(
-    expand = c(0,0),
-    labels = function(x) paste0(x, "%")
-  ) +
-  labs(
-    x = NULL,
-    y = "Cell proportion"
-  ) +
-  theme_classic() +
-  theme(
-    axis.text.x = element_text(
-      angle = 45,
-      hjust = 1,
-      size = 11
-    ),
-    axis.text.y = element_text(
-      size = 12
-    ),
-    axis.title.y = element_text(
-      size = 14
-    ),
-    legend.title = element_text(
-      size = 14,
-      face = "bold"
-    ),
-    legend.text = element_text(
-      size = 14
-    ),
-    
-    legend.key.size = unit(
-      0.6,
-      "cm"
-    )
-  )
-
-p
-ggsave(
-  file.path("FigS5B-barPlot.png"),
-  p,
-  width = 12,
-  height = 4,
-  dpi = 300,
-  bg = "white"
-)
-
-
-#--------S5C--------
 #通路分析
 tam <- readRDS(file = "tam_group_60samples.RDS")
 options(stringsAsFactors = FALSE)
@@ -540,5 +462,5 @@ p1 <- ggplot(
   )
 
 p1
-ggsave(file.path("FigS5C-heatmap.pdf"), p1, width =7, height = 4.3, bg = "white",
+ggsave(file.path("FigS5B-heatmap.pdf"), p1, width =7, height = 4.3, bg = "white",
        device = cairo_pdf)
